@@ -21,22 +21,15 @@ public class MozbuzzShare extends Activity
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
-        Log.v(LOGGING_TAG, "Creating activity");
+        Log.v(LOGGING_TAG, "Creating Mozbuzz Share activity");
         super.onCreate(savedInstanceState);
 
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
 
-        if (extras != null) {
-            Log.v(LOGGING_TAG, "Extras: " + extras.toString());
-            for (String key : extras.keySet()) {
-                Log.v(LOGGING_TAG, key);
-            }
-        }
-
         String text = extras.getString("android.intent.extra.TEXT");
         if (text != null) {
-            Log.v(LOGGING_TAG, "TEXT in Bundle is: " + text);
+            Log.v(LOGGING_TAG, "Processing: " + text);
 
             // Find all urls in text
             int textIndex = 0;
