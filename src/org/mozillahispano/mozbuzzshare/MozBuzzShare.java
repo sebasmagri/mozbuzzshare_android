@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,29 +11,38 @@ import android.util.Log;
 import android.util.Patterns;
 
 
-public class MozbuzzShare extends Activity
+public class MozBuzzShare extends Activity
 {
-    private static final String LOGGING_TAG = "MozbuzzShare";
+    private static final String LOGGING_TAG = "MozBuzzShare";
     private static final String CREATE_MENTION_URL = "https://www.mozilla-hispano.org/mozbuzz/mention/create";
 
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
-        Log.v(LOGGING_TAG, "Creating Mozbuzz Share activity");
+        Intent intent;
+        Bundle extras;
+        String extraText;
+
+        Log.v(LOGGING_TAG, "Creating MozBuzz Share activity");
         super.onCreate(savedInstanceState);
 
-        Intent intent = getIntent();
-        Bundle extras = intent.getExtras();
+        intent = getIntent();
+        extras = intent.getExtras();
 
-        String text = extras.getString("android.intent.extra.TEXT");
-        if (text != null) {
-            Log.v(LOGGING_TAG, "Processing: " + text);
+        if (extras == null) {
+            Log.v(LOGGING_TAG, "Unable to get extras from intent");
+            throw new AssertionError();
+        }
+
+        extraText = extras.getString("android.intent.extra.TEXT");
+        if (extraText != null) {
+            Log.v(LOGGING_TAG, "Processing: " + extraText);
 
             // Find all urls in text
             int textIndex = 0;
             ArrayList<String> urls = new ArrayList<String>();
-            Matcher urlsMatcher = Patterns.WEB_URL.matcher(text);
+            Matcher urlsMatcher = Patterns.WEB_URL.matcher(extraText);
             while (urlsMatcher.find(textIndex)) {
                 textIndex = urlsMatcher.end();
                 String url = urlsMatcher.group();
